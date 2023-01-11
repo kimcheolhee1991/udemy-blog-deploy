@@ -1,0 +1,46 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<!-- Start your project here-->
+<div>
+  <br>
+</div>
+<!-- End your project here-->
+<!-- Jumbotron -->
+<div class="p-5 text-center bg-light">
+  <h1 class="mb-3">{{ request.site.siteconfig.top_title}}</h1>
+  <h4 class="mb-3">{{ request.site.siteconfig.top_subtitle}}</h4>
+  <a class="btn btn-primary" href="" role="button">Call to action</a>
+</div>
+
+
+<div class="row">
+  {% for item in post_list %}
+  <div class="col-md-4">
+    <div class="card" style="height: 550px;">
+      <br>
+      {% if item.thumbnail %}
+      <img src="{{ item.thumbnail.url }}" class="card-img-top" style="height: 250px;" alt="{{ item.title }}" />
+      {% else %}
+      <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp" style="height: 250px;" class="card-img-top" alt="" />
+      {% endif %}
+
+
+      <div class="card-body" style="height: 150px;">
+        <h5 class="card-title">{{ item.title }}<small> - {{ item.author }} </small></h5>
+        <p>{{ item.category }} </p>
+        <p class="card-text" >
+          {{ item.content|truncatechars:30|safe}}
+            <!-- {{ item.content |truncatewords:30 }} -->
+        </p>
+      </div>
+      <a href="{% url 'myapp:post_detail' item.id %}" type="button" class="btn btn-primary">もっと読む</a>
+      <div class="card-footer">
+        <small class="text-muted">Last updated 3 mins ago</small>
+      </div>
+    </div>
+    <div><Br></div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

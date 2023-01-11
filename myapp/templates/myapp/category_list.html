@@ -1,0 +1,37 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <br>
+        <h2>Category List</h2>
+        <br>
+    </div>
+</div>
+<div class="row">
+   
+    {% for category in category_list %}
+
+    <div class="col-md-4">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                <a href=" {% url 'myapp:category_detail' category.name_en %} ">{{ category.name }} </a>&nbsp;<small>[&nbsp;{{ category.post_count }}&nbsp;]</small> 
+            </h4>
+            <hr>
+                {% for post in category.post_set.all|slice:":2" %}
+                <p><a href="{% url 'myapp:post_detail' post.pk %}" style="color:black">{{ post.title }}</a></p>
+                {% endfor %}
+                <Br>
+                    <a href=" {% url 'myapp:category_detail' category.name_en %} ">このカテゴリの全ての記事を見る </a> 
+            </div>
+        </div>
+    </div>
+
+    {% endfor%}
+
+
+</div>
+<br>
+{% endblock %}

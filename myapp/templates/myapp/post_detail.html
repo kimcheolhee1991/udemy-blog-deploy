@@ -1,0 +1,55 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<br><br>
+<div class="row">
+    <div class="col-md-9">
+
+
+
+
+        <div class="card">
+            {% if object.thumbnail %}
+            <img src="{{ object.thumbnail.url }}" class="card-img-top"
+                alt="{{ object.title }}" />
+            {% else%}
+            <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top"
+                alt="Fissure in Sandstone" />
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ object.title }}</h5>
+                <p class="card-text">{{ object.content|safe|urlizetrunc:30 }}</p>
+                <a href="{% url 'myapp:like_add' object.pk %}" class="btn"
+                    style="background-color:#ff6699; color:white">お気に入り</a>
+                <hr>
+               
+                <a href="javascript:void(0);" onclick="window.history.back();" class="btn btn-outline-dark">戻る</a>
+                {% if object.author == request.user or request.user.is_superuser %}
+                <a href="{% url 'myapp:post_update'  object.pk  %}" class="btn btn-primary">更新</a>
+                <a href="{% url 'myapp:post_delete'  object.pk  %}" class="btn btn-outline-danger">削除</a>
+
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+    <div class="col-md-3">
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ object.category }} </h5>
+            <p>このかてごりの他の記事</p>
+          </div>
+          <ul class="list-group">
+            {% for item in category_posts %}
+            <li class="list-group-item"><a href="{% url 'myapp:post_detail' item.id %}">{{ item.title }}</a></li>
+            {% endfor%}
+          </ul>
+        </div>
+
+    </div>
+
+</div>
+</div>
+<br><br>
+{% endblock %}
